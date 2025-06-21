@@ -4,8 +4,8 @@ const isProd = process.env.NODE_ENV === 'production'
 
 const nextConfig: NextConfig = {
   output: 'export',
-  assetPrefix: isProd ? '/ccd-2025-post-generator/' : '',
-  basePath: isProd ? '/ccd-2025-post-generator/' : '',
+  assetPrefix: isProd ? '/ccd-2025-post-generator' : '',
+  basePath: isProd ? '/ccd-2025-post-generator' : '',
   /* config options here */
   typescript: {
     ignoreBuildErrors: true,
