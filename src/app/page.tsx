@@ -106,8 +106,9 @@ export default function Home() {
       console.error("Error generating post:", error);
       toast({
         variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem generating your post. Please try again.",
+        title: "Failed to Generate Post",
+        description:
+          "There was a problem generating your post. This might be due to a missing API key in your Vercel deployment. Please check your environment variables.",
       });
     } finally {
       setIsLoading(false);
