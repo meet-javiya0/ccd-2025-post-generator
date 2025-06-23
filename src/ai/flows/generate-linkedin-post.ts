@@ -33,40 +33,31 @@ const prompt = ai.definePrompt({
     name: 'generateLinkedInPostPrompt',
     input: { schema: GenerateLinkedInPostInputSchema },
     output: { schema: GenerateLinkedInPostOutputSchema },
-    prompt: `You are an expert social media writer crafting a **genuine LinkedIn post** for someone who just attended *Cloud Community Days 2025*, hosted by GDG Cloud Rajkot in India.
+    prompt: `You are a creative writer who excels at crafting authentic and engaging LinkedIn posts. Your goal is to write from the perspective of a tech enthusiast attending Cloud Community Days 2025, organized by GDG Cloud Rajkot. The post must sound human, personal, and professional.
 
-The person wants to share their experience, key learnings, and maybe give a shoutout to the workshop they attended — all while keeping the tone professional but personal.
-
-Inputs:
-- Event Details: {{{eventDetails}}}
-- Attendee Experience: {{{experienceDetails}}}
-- Workshop Attended: {{{workshop}}}
+Event Details: {{{eventDetails}}}
+Attendee's Experience Summary: {{{experienceDetails}}}
+Workshop Attended: {{{workshop}}}
 {{#if speaker}}
-- Workshop Speaker: {{{speaker}}}
+Speaker at the workshop: {{{speaker}}}
 {{/if}}
-- Desired Length: {{{postLength}}}
+Desired Post Length: {{{postLength}}}
 
 **Instructions:**
+1.  **Tone & Style:** Write in the first person ("I", "my"). Tell a story. Be enthusiastic but professional. Avoid corporate jargon or overly formal phrases. The post should feel like a genuine reflection of a great day of learning and networking.
+2.  **Structure:**
+    *   **Hook:** Start with an engaging sentence that grabs attention.
+    *   **Body:** Talk about the overall event vibe – the energy, the people, the keynotes. Then, dive into the specific workshop.
+    *   **Workshop Details:** Mention the workshop '{{{workshop}}}' and if the speaker '{{{speaker}}}' is provided, credit them for their insights (e.g., "The hands-on workshop on '{{{workshop}}}' by {{{speaker}}} was a highlight for me. I particularly learned...").
+    *   **Key Takeaways:** Use bullet points (e.g., using '💡', '🚀', or '-') for key learnings or favorite moments to make the post scannable and engaging. This is especially important for 'medium' and 'long' posts.
+    *   **Call to Action:** End with a forward-looking statement or a question to encourage comments (e.g., "What was your favorite part of the event?").
+3.  **Hashtags:** ALWAYS include this set of hashtags: #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot. Feel free to add 1-2 more highly relevant tags based on the workshop topic (e.g., #RAG, #AgenticAI, #AI).
+4.  **Length Guidelines:**
+    - **Short:** A concise, impactful post of 1-2 paragraphs.
+    - **Medium:** A more detailed post of 3-4 paragraphs with bullet points for key takeaways.
+    - **Long:** A comprehensive reflection with multiple well-developed paragraphs, detailed insights, bullet points, and a thoughtful conclusion.
 
-1. **Structure:**
-    - Begin with a short, engaging hook — something personal like “Spent my Sunday immersed in learning at #CCD2025.”
-    - Share what stood out about the overall event — topics, vibe, people.
-    - Highlight the specific workshop attended. If a speaker is mentioned, include a sentence of appreciation or insight related to their session.
-    - End with a casual note like: “Great meeting so many passionate folks” or “Looking forward to applying these learnings!”
-2. **Formatting Tips:**
-    - Use paragraphs and line breaks.
-    - For longer posts, include bullet points to make key takeaways skimmable.
-3. **Tone:**
-    - Indian-English, semi-formal. Avoid over-polished or buzzword-heavy writing.
-    - Avoid corporate phrases like “delighted to be a part of…” or “an honor to attend…”
-    - Use real, humble, thoughtful language — like you’re talking to your peers.
-4. **Hashtags:** Always include:
-    - #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot
-    - Optionally add 1–2 relevant ones (e.g., #AI, #Networking, #Flutter)
-
-5. **Output:** Only the post body text — do not add commentary or intro. Make it look like something a tech-savvy student or early-career engineer from India might post after attending an event.
-
-Keep it crisp, natural, and insightful.
+Generate only the text for the post itself. Do not add any preamble like "Here is the post:".
 `,
 });
 

@@ -33,47 +33,29 @@ const prompt = ai.definePrompt({
     name: 'generateXPostPrompt',
     input: { schema: GenerateXPostInputSchema },
     output: { schema: GenerateXPostOutputSchema },
-    prompt: `You are writing a post-event social media thread or tweet on **X (formerly Twitter)** for someone who just attended *Cloud Community Days 2025*, organized by GDG Cloud Rajkot.
+    prompt: `You are a witty and engaging social media expert who knows how to create viral content for X (formerly Twitter). Your task is to generate a personalized X post for an attendee of Cloud Community Days 2025, organized by GDG Cloud Rajkot. The post must be fun, energetic, and feel authentic.
 
-They want to share what they experienced, especially the specific workshop they attended, in a concise, engaging way.
-
-Inputs:
-- Event Info: {{{eventDetails}}}
-- Experience Summary: {{{experienceDetails}}}
-- Workshop Attended: {{{workshop}}}
+Event Details: {{{eventDetails}}}
+Attendee Experience: {{{experienceDetails}}}
+Workshop Attended: {{{workshop}}}
 {{#if speaker}}
-- Workshop Speaker: {{{speaker}}}
+Workshop Speaker: {{{speaker}}}
 {{/if}}
-- Desired Length: {{{postLength}}}
+Desired Post Length: {{{postLength}}}
 
 **Instructions:**
+1.  **Tone & Style:** Energetic, concise, and conversational. Use relevant emojis (like 🤯, 🚀, 🔥) to add personality and break up text. Ask questions to drive engagement. Write in the first person ("I", "My mind is blown...").
+2.  **Content:**
+    *   Reflect the attendee's overall experience (keynotes, networking, food!).
+    *   Give a special shout-out to the workshop they attended. If the speaker is mentioned, tag them (or mention their name if a handle isn't available). E.g., "The workshop on '{{{workshop}}}' with {{{speaker}}} was insane! 🤯 So many great takeaways."
+3.  **Length & Formatting:**
+    - **Short:** A single, punchy tweet.
+    - **Medium:** A small thread of 2 tweets. Make sure each tweet flows logically from the last.
+    - **Long:** A thread of 3-4 tweets. Start with a strong hook, build on it, and end with a concluding thought or question.
+4.  **Hashtags:** ALWAYS include this set of hashtags: #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot. Add 1-2 other relevant hashtags (e.g., #AI, #DevCommunity).
+5.  **Human Touch:** Avoid sounding like a formal report. Keep it snappy, fun, and shareable.
 
-1. **Voice & Style:**
-    - Conversational, punchy, and real.
-    - Use emojis sparingly if needed (optional).
-    - Avoid hashtags-only or thread-only filler. Keep substance high.
-    - Don’t use “blown away” or “so honored to attend” — use grounded phrases like:
-        - “Here’s what I took away…”
-        - “Loved the energy at…”
-        - “This session made me rethink…”
-
-2. **Platform Adaptation:**
-    - **Short:** 1 tweet summary
-    - **Medium:** 2–tweet mini-thread (1 event summary + 1 workshop highlight)
-    - **Long:** 3–4 tweet thread (overall → workshop → takeaways → community)
-
-3. **Speaker Shoutouts:** If a speaker is named, include them casually:
-    - “Big thanks to {{{speaker}}} for making the workshop so hands-on!”
-
-4. **Hashtags:** Use:
-    - #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot
-    - Optionally: #AI, #Flutter, #GoogleCloud
-
-5. **Output:** Only tweet content — no title or explanation. If using a thread, number tweets like:
-    - 1/ Here’s what went down at #CCD2025 👇
-    - 2/ Attended the workshop on...
-
-Keep it real, sharp, and interactive.
+Generate only the text for the post itself. Do not add any preamble.
 `,
 });
 
