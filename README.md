@@ -15,8 +15,8 @@ Follow these instructions to get the project up and running on your local machin
 
 1.  **Clone the repository:**
     ```bash
-    git clone <your-repository-url>
-    cd <repository-name>
+    git clone https://github.com/meet-javiya0/ccd-2025-post-generator.git
+    cd https://github.com/meet-javiya0/ccd-2025-post-generator.git
     ```
 
 2.  **Install dependencies:**
@@ -50,19 +50,3 @@ To run the application, you need to start both the Next.js development server an
     This starts the Genkit AI flows, which are used by the application to generate posts. By default, this will be available for the Next.js server to call.
 
 Now, you can open your browser and navigate to `http://localhost:9002` to use the application.
-
-## Continuous Deployment with GitHub Actions
-
-This project is configured for continuous deployment to GitHub Pages. Any push to the `main` branch will automatically trigger a build and deploy the latest version of the application.
-
-**Important:** The `next.config.ts` file is configured with a `basePath` of `/ccd-2025-post-generator`. If your repository has a different name, you must update this value in `next.config.ts` to match.
-
-### GitHub Pages Setup
-
-To enable deployment, you need to configure your repository settings:
-
-1.  Go to your repository's **Settings** tab.
-2.  Click on **Pages** in the left sidebar.
-3.  Under **Build and deployment**, select **GitHub Actions** as the source.
-
-The workflow defined in `.github/workflows/firebase-hosting-merge.yml` will now run automatically on pushes to `main`.
