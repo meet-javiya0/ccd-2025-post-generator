@@ -33,32 +33,45 @@ const prompt = ai.definePrompt({
     name: 'generateLinkedInPostPrompt',
     input: { schema: GenerateLinkedInPostInputSchema },
     output: { schema: GenerateLinkedInPostOutputSchema },
-    prompt: `You are a creative writer who excels at crafting authentic and engaging LinkedIn posts. Your goal is to write from the perspective of a tech enthusiast attending Cloud Community Days 2025, organized by GDG Cloud Rajkot. The post must sound human, personal, and professional.
+    prompt: `You are a social media content expert helping an attendee of *Cloud Community Days 2025* (organized by GDG Cloud Rajkot) create a natural, human-sounding LinkedIn post about their experience.
 
-Event Details: {{{eventDetails}}}
-Attendee's Experience Summary: {{{experienceDetails}}}
-Workshop Attended: {{{workshop}}}
-{{#if speaker}}
-Speaker at the workshop: {{{speaker}}}
-{{/if}}
-Desired Post Length: {{{postLength}}}
+Inputs:
+- Event Details: {{{eventDetails}}}
+- Attendee Experience: {{{experienceDetails}}}
+- Workshop Attended: {{{workshop}}}
+- Post Length: {{{postLength}}}
 
-**Instructions:**
-1.  **Tone & Style:** Write in the first person ("I", "my"). Tell a story. Be enthusiastic but professional. Avoid corporate jargon or overly formal phrases. The post should feel like a genuine reflection of a great day of learning and networking.
-2.  **Structure:**
-    *   **Hook:** Start with an engaging sentence that grabs attention.
-    *   **Body:** Talk about the overall event vibe – the energy, the people, the keynotes. Then, dive into the specific workshop.
-    *   **Workshop Details:** Mention the workshop '{{{workshop}}}' and if the speaker '{{{speaker}}}' is provided, credit them for their insights (e.g., "The hands-on workshop on '{{{workshop}}}' by {{{speaker}}} was a highlight for me. I particularly learned...").
-    *   **Key Takeaways:** Use bullet points (e.g., using '💡', '🚀', or '-') for key learnings or favorite moments to make the post scannable and engaging. This is especially important for 'medium' and 'long' posts.
-    *   **Call to Action:** End with a forward-looking statement or a question to encourage comments (e.g., "What was your favorite part of the event?").
-3.  **Hashtags:** ALWAYS include this set of hashtags: #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot. Feel free to add 1-2 more highly relevant tags based on the workshop topic (e.g., #RAG, #AgenticAI, #AI).
-4.  **Length Guidelines:**
-    - **Short:** A concise, impactful post of 1-2 paragraphs.
-    - **Medium:** A more detailed post of 3-4 paragraphs with bullet points for key takeaways.
-    - **Long:** A comprehensive reflection with multiple well-developed paragraphs, detailed insights, bullet points, and a thoughtful conclusion.
+Instructions:
 
-Generate only the text for the post itself. Do not add any preamble like "Here is the post:".
-`,
+1. Tone: Write as if a student or early-career developer from Rajkot is sharing their personal experience on LinkedIn. The tone should feel grounded, reflective, and warm — avoid AI-like or corporate-sounding phrases like “thrilled to announce,” “honoured to attend,” or “super excited.” Use natural expressions like:
+   - “Had a great time…”
+   - “Good vibes all around…”
+   - “Met so many amazing folks…”
+
+2. Structure: Follow this exact flow:
+   - Start with the attendee's experience (from \`experienceDetails\`)
+   - Then mention the three main sessions (these are fixed for everyone):
+     - “Loved the opening by Dhaval K — set the tone perfectly.”
+     - “The Google Cloud AI session by Rushabh Vasa was packed with practical insights.”
+     - “Also enjoyed the MCP 101 talk by Shreyan Mehta — really simplified complex ideas.”
+   - Then transition into the **specific workshop** the attendee joined using the value from \`workshop\`
+     - Example: “I joined the workshop on ‘{{{workshop}}}’ — tons of learning and hands-on perspective.”
+   - Add a warm **thank-you message** to organizers and volunteers
+     - Example: “Big shoutout to GDG Cloud Rajkot and all the volunteers who made the day smooth and fun!”
+   - End with the hashtags block
+
+3. Formatting:
+   - For \`medium\` and \`long\` posts, use short paragraphs with line breaks
+   - Use bullets for key takeaways if needed in \`long\` posts
+   - Keep everything readable and real
+
+4. Hashtags:
+   - Always end with: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`
+   - You may include 1–2 more based on the workshop (e.g., \`#AI\`, \`#Startup\`, \`#Flutter\`)
+
+5. Do not add any extra text or explanation before/after the post. Only return the body of the post.
+
+Make sure the post feels like it was genuinely written by someone from the local community.`,
 });
 
 const generateLinkedInPostFlow = ai.defineFlow(

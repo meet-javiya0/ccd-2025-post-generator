@@ -71,7 +71,15 @@ const WORKSHOPS = [
     { name: "Not specific to a workshop", speaker: undefined },
 ];
 
-const EVENT_DETAILS = "Cloud Community Days 2025 in Rajkot, a premier event for cloud enthusiasts and professionals, organized by GDG Cloud Rajkot.";
+const EVENT_DETAILS = `Cloud Community Days 2025 in Rajkot, organized by GDG Cloud Rajkot. A full-day tech event with sessions and workshops.
+:- Welcome Note by Dhaval K
+1. Rushabh Vasa (GDE): Google Cloud Al: In Action (session)
+2. Shreyan Mehta: MCP 101 (session)
+3. Harsh Manvar (GDE): Intro to Multimodal Retrieval-Augmented Generation (RAG) (workshop)
+4. Abhishek Sharma (GDE): Building the Next Wave: Agentic Al with Google ADK & MCP(workshop)
+5. Geeta Kakrani (GDE): Build Your Social Media Brain: Content Creation with Google ADK Agents (workshop)
+6. Parth Devariya: The Invisible Co-Founder: How to Launch and Run a Startup with an Al Agent (workshop)
+Closing note and swag distribution`;
 
 export default function Home() {
     const [isLoading, setIsLoading] = React.useState(false);

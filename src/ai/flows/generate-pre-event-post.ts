@@ -31,35 +31,44 @@ const prompt = ai.definePrompt({
     name: 'generatePreEventPostPrompt',
     input: { schema: GeneratePreEventPostInputSchema },
     output: { schema: GeneratePreEventPostOutputSchema },
-    prompt: `You are a social media expert who excels at creating authentic, human-sounding content. Your task is to generate a pre-event social media post for an attendee of "Cloud Community Days 2025" in Rajkot, an event organized by GDG Cloud Rajkot.
+    prompt: `You are an expert social media content writer helping someone draft a **pre-event post** for attending *Cloud Community Days 2025*, organized by GDG Cloud Rajkot.
 
-The post should sound like it was written by a real tech enthusiast from India, excited about an upcoming tech conference.
+Inputs:
+- Platform: {{{platform}}}
+- Previous Experience: {{{previousExperience}}}
+- Post Length: {{{postLength}}}
 
-Platform: {{{platform}}}
-Desired Post Length: {{{postLength}}}
-{{#if previousExperience}}
-The user has attended a previous event. Use their feedback to add a personal, nostalgic touch. For example: "Last year's event was incredible, especially [mention something from their feedback]. Can't wait to see what this year holds!".
-Previous Experience: {{{previousExperience}}}
-{{/if}}
+Instructions:
 
+1. Tone: Write casually and naturally, as if a tech enthusiast from Rajkot or Gujarat is sharing their excitement about attending CCD 2025.
+Avoid generic or corporate-sounding phrases like:
+   - “Super excited to announce…”
+   - “It’s an honour to be attending…”
+   - “Thrilled to…”
+Use grounded, warm phrasing like:
+   - “Looking forward to meeting everyone…”
+   - “Can’t wait for the sessions and chai breaks”
+   - “CCD is always a vibe — let’s go again!”
 
-**Instructions:**
-1.  **Tone:** The tone is crucial. It must be natural, genuine, and enthusiastic.
-    *   **AVOID clichés** like "I'm thrilled to announce" or "I am pleased to be attending".
-    *   **USE conversational phrases** like "Counting down the days to...", "So pumped for...", "Who's ready for...?", or "Can't wait to dive into all things cloud and AI at...".
-2.  **Content:**
-    *   Clearly state excitement for attending Cloud Community Days 2025 by GDG Cloud Rajkot.
-    *   Include a strong call to action for networking. Examples: "Who else is going?", "Let's connect!", "Drop a comment if you'll be there!", "Looking forward to meeting fellow tech minds!".
-3.  **Hashtags:** You MUST include the following hashtags: #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot. You can add one or two other relevant ones like #Networking, #AI, #GoogleCloud.
-4.  **Platform Specifics:**
-    - **LinkedIn:** Generate a slightly more descriptive but still conversational post.
-    - **X:** Generate a concise, punchy tweet or a small, engaging thread. Use emojis to add flavor.
-5.  **Length Guidelines:**
-    - **Short:** 1-2 punchy sentences.
-    - **Medium:** A short paragraph or a 2-tweet thread.
-    - **Long:** A well-formed paragraph for LinkedIn or a 2-3 tweet thread for X.
+2. Structure:
+   - Begin with a natural statement about attending CCD 2025
+   - If \`previousExperience\` is available, include a short line referencing it (e.g., “Attended last year and it was a blast.”)
+   - Mention general excitement for learning, meeting people, or specific sessions/workshops (don’t name specific talks)
+   - Add a casual CTA like “Who else is coming?” or “Catch you there?”
+   - End with hashtags
 
-Generate only the text for the post itself. Do not add any preamble.
+3. Formatting:
+   - For \`linkedin\`, use proper paragraphs and line breaks
+   - For \`x\`, keep it compact and conversational, but **do not create separate tweets or a thread** — it must be a single post
+   - Adapt tone slightly to the platform (LinkedIn more descriptive, X more informal)
+
+4. Hashtags:
+   - Always include: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`
+   - Optionally add one or two extra hashtags like \`#Networking\`, \`#DevCommunity\`, or \`#RajkotEvents\`
+
+5. Output Only the Post: Do not include preamble or explanations.
+
+Make sure the final output feels like it was written by a young dev genuinely excited about joining a community-led event.
 `,
 });
 

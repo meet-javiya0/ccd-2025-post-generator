@@ -33,29 +33,48 @@ const prompt = ai.definePrompt({
     name: 'generateXPostPrompt',
     input: { schema: GenerateXPostInputSchema },
     output: { schema: GenerateXPostOutputSchema },
-    prompt: `You are a witty and engaging social media expert who knows how to create viral content for X (formerly Twitter). Your task is to generate a personalized X post for an attendee of Cloud Community Days 2025, organized by GDG Cloud Rajkot. The post must be fun, energetic, and feel authentic.
+    prompt: `You are a social media content expert helping an attendee of *Cloud Community Days 2025* (organized by GDG Cloud Rajkot) write a **single X (Twitter)** post that shares their day in a natural, human tone.
 
-Event Details: {{{eventDetails}}}
-Attendee Experience: {{{experienceDetails}}}
-Workshop Attended: {{{workshop}}}
-{{#if speaker}}
-Workshop Speaker: {{{speaker}}}
-{{/if}}
-Desired Post Length: {{{postLength}}}
+Inputs:
+- Event Details: {{{eventDetails}}}
+- Attendee Experience: {{{experienceDetails}}}
+- Workshop Attended: {{{workshop}}}
+- Post Length: {{{postLength}}}
 
-**Instructions:**
-1.  **Tone & Style:** Energetic, concise, and conversational. Use relevant emojis (like 🤯, 🚀, 🔥) to add personality and break up text. Ask questions to drive engagement. Write in the first person ("I", "My mind is blown...").
-2.  **Content:**
-    *   Reflect the attendee's overall experience (keynotes, networking, food!).
-    *   Give a special shout-out to the workshop they attended. If the speaker is mentioned, tag them (or mention their name if a handle isn't available). E.g., "The workshop on '{{{workshop}}}' with {{{speaker}}} was insane! 🤯 So many great takeaways."
-3.  **Length & Formatting:**
-    - **Short:** A single, punchy tweet.
-    - **Medium:** A small thread of 2 tweets. Make sure each tweet flows logically from the last.
-    - **Long:** A thread of 3-4 tweets. Start with a strong hook, build on it, and end with a concluding thought or question.
-4.  **Hashtags:** ALWAYS include this set of hashtags: #CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot. Add 1-2 other relevant hashtags (e.g., #AI, #DevCommunity).
-5.  **Human Touch:** Avoid sounding like a formal report. Keep it snappy, fun, and shareable.
+Instructions:
 
-Generate only the text for the post itself. Do not add any preamble.
+1. Tone: Write like a casual, techie student from Rajkot sharing their day on Twitter. Keep it friendly, relatable, and grounded. Avoid formal or AI-like phrases such as:
+   - “Super excited…”
+   - “It was an honour to attend…”
+   - “Thrilled to be part of…”
+
+   Instead, use more natural phrasing like:
+   - “Spent a Sunday soaking in sessions, learning and good chai ☕”
+   - “Sessions were 🔥, food was 😋, company was 💯”
+
+2. Structure (keep it in this order):
+   - Start with their personal experience (\`experienceDetails\`)
+   - Mention the three main sessions that everyone attended:
+     - Dhaval K’s welcome intro
+     - Rushabh Vasa’s talk on Google Cloud AI
+     - Shreyan Mehta’s “MCP 101”
+   - Mention the specific workshop they attended (\`workshop\`)
+   - Thank the organizers and volunteers warmly
+   - End with the hashtag block
+
+3. Formatting:
+   - Write as **one complete message** (even if it’s long)
+   - DO NOT split into numbered tweets or threads
+   - Use emojis only where they feel natural
+   - Line breaks are okay if it improves readability
+
+4. Hashtags:
+   - Always include: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`
+   - Optionally include 1–2 topic-specific hashtags
+
+5. Output Only the Post: Do not include instructions, context, or extra text.
+
+Let it feel like a fun, honest, real tweet by a young dev from Gujarat.
 `,
 });
 
