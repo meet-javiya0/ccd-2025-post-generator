@@ -13,7 +13,7 @@ import { z } from 'genkit';
 
 const GeneratePreEventPostInputSchema = z.object({
     platform: z.enum(['linkedin', 'x']),
-    postLength: z.enum(['short', 'medium', 'long']).describe('The desired length of the post.'),
+    postLength: z.enum(['medium', 'long']).describe('The desired length of the post.'),
     previousExperience: z.string().optional().describe("Optional details about the attendee's experience from a previous event to add a personal touch."),
 });
 export type GeneratePreEventPostInput = z.infer<typeof GeneratePreEventPostInputSchema>;
@@ -58,9 +58,11 @@ Use grounded, warm phrasing like:
    - End with hashtags
 
 3. Formatting:
-   - For \`linkedin\`, use proper paragraphs and line breaks
-   - For \`x\`, keep it compact and conversational, but **do not create separate tweets or a thread** — it must be a single post
-   - Adapt tone slightly to the platform (LinkedIn more descriptive, X more informal)
+   - For \`linkedin\`, use proper paragraphs and line breaks.
+   - For \`x\`, keep it compact and conversational, but **do not create separate tweets or a thread** — it must be a single post.
+   - For a 'medium' post, aim for 2-3 sentences.
+   - For a 'long' post, create a slightly more detailed post of 4-5 sentences.
+   - Adapt tone slightly to the platform (LinkedIn more descriptive, X more informal).
 
 4. Hashtags:
    - Always include: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`

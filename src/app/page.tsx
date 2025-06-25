@@ -42,14 +42,14 @@ import { XIcon } from "@/components/icons/x-icon";
 const preEventSchema = z.object({
     postType: z.literal('preevent'),
     platform: z.enum(['linkedin', 'x']),
-    postLength: z.enum(['short', 'medium', 'long']),
+    postLength: z.enum(['medium', 'long']),
     previousExperience: z.string().max(1000, "Your summary is too long (max 1000 characters).").optional(),
 });
 
 const postEventSchema = z.object({
     postType: z.literal('postevent'),
     platform: z.enum(['linkedin', 'x']),
-    postLength: z.enum(['short', 'medium', 'long']),
+    postLength: z.enum(['medium', 'long']),
     experience: z.string()
         .min(20, "Please share a bit more (at least 20 characters).")
         .max(1000, "Your summary is too long (max 1000 characters)."),
@@ -322,7 +322,6 @@ export default function Home() {
                                                             </SelectTrigger>
                                                         </FormControl>
                                                         <SelectContent>
-                                                            <SelectItem value="short">Short</SelectItem>
                                                             <SelectItem value="medium">Medium</SelectItem>
                                                             <SelectItem value="long">Long</SelectItem>
                                                         </SelectContent>

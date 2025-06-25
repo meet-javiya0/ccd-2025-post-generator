@@ -14,7 +14,7 @@ import { z } from 'genkit';
 const GenerateLinkedInPostInputSchema = z.object({
     eventDetails: z.string().describe('Details about the event, including name and date.'),
     experienceDetails: z.string().describe("Details about the attendee's experience at the event."),
-    postLength: z.enum(['short', 'medium', 'long']).describe('The desired length of the post.'),
+    postLength: z.enum(['medium', 'long']).describe('The desired length of the post.'),
     workshop: z.string().describe('The workshop the attendee participated in.'),
     speaker: z.string().optional().describe('The name of the speaker for the workshop or session attended.'),
 });
@@ -61,9 +61,9 @@ Instructions:
    - End with the hashtags block
 
 3. Formatting:
-   - For \`medium\` and \`long\` posts, use short paragraphs with line breaks
-   - Use bullets for key takeaways if needed in \`long\` posts
-   - Keep everything readable and real
+   - For a medium post, generate about 6-7 sentences in 3-4 short paragraphs.
+   - For a long post, generate about 13-15 sentences in 6-7 short paragraphs. Use bullets for key takeaways if it feels natural.
+   - Keep everything readable and real.
 
 4. Hashtags:
    - Always end with: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`

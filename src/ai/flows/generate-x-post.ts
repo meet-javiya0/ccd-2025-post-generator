@@ -14,7 +14,7 @@ import { z } from 'genkit';
 const GenerateXPostInputSchema = z.object({
     eventDetails: z.string().describe('Details about the Cloud Community Days 2025 event.'),
     experienceDetails: z.string().describe('Attendee experience at the event.'),
-    postLength: z.enum(['short', 'medium', 'long']).describe('The desired length of the post.'),
+    postLength: z.enum(['medium', 'long']).describe('The desired length of the post.'),
     workshop: z.string().describe('The workshop the attendee participated in.'),
     speaker: z.string().optional().describe('The name of the speaker for the workshop or session attended.'),
 });
@@ -63,10 +63,12 @@ Instructions:
    - End with the hashtag block
 
 3. Formatting:
-   - Write as **one complete message** (even if it’s long)
-   - DO NOT split into numbered tweets or threads
-   - Use emojis only where they feel natural
-   - Line breaks are okay if it improves readability
+   - Write as **one complete message** (even if it’s long).
+   - For a 'medium' post, aim for around 4-5 sentences.
+   - For a 'long' post, write a more detailed single tweet of 7-8 sentences.
+   - DO NOT split into numbered tweets or threads.
+   - Use emojis only where they feel natural.
+   - Line breaks are okay if it improves readability.
 
 4. Hashtags:
    - Always include: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`
