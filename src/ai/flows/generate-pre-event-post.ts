@@ -63,6 +63,7 @@ Use grounded, warm phrasing like:
    - For a 'medium' post, aim for 2-3 sentences.
    - For a 'long' post, create a slightly more detailed post of 4-5 sentences.
    - Adapt tone slightly to the platform (LinkedIn more descriptive, X more informal).
+   - Include 2-3 relevant emojis to show excitement (e.g., ✨, 🗓️, 👋).
 
 4. Hashtags:
    - Always include: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`

@@ -67,8 +67,8 @@ Instructions:
    - For a 'medium' post, aim for around 4-5 sentences.
    - For a 'long' post, write a more detailed single tweet of 7-8 sentences.
    - DO NOT split into numbered tweets or threads.
-   - Use emojis only where they feel natural.
-   - Line breaks are okay if it improves readability.
+   - Use 2-3 emojis where they feel natural (e.g., 🚀, ✨, 💯).
+   - Use line breaks to improve readability on mobile, but don't overdo it.
 
 4. Hashtags:
    - Always include: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`

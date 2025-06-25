@@ -64,6 +64,7 @@ Instructions:
    - For a medium post, generate about 6-7 sentences in 3-4 short paragraphs.
    - For a long post, generate about 13-15 sentences in 6-7 short paragraphs. Use bullets for key takeaways if it feels natural.
    - Keep everything readable and real.
+   - Include 2-3 professional and relevant emojis to add a touch of personality (e.g., 💡, 🚀, 🙌).
 
 4. Hashtags:
    - Always end with: \`#CCD2025 #CCDRajkot #CloudCommunityDays #GDGIndia #GDGCloudRajkot\`
