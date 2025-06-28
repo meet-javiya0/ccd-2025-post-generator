@@ -19,6 +19,13 @@ const GenerateLinkedInPostInputSchema = z.object({
     postLength: z.enum(['medium', 'long']).describe('The desired length of the post.'),
     workshop: z.string().describe('The workshop the attendee participated in.'),
     speaker: z.string().optional().describe('The name of the speaker for the workshop or session attended.'),
+    mentionSwag: z.boolean().optional().describe("Whether to mention swag/giveaways."),
+    swagDetails: z.string().optional().describe("Specific details about the swag received."),
+    mentionSponsors: z.boolean().optional().describe("Whether to mention the event sponsors."),
+    mentionOrganizers: z.boolean().optional().describe("Whether to mention the event organizers."),
+    mentionVolunteers: z.boolean().optional().describe("Whether to mention the event volunteers."),
+    mentionNetworking: z.boolean().optional().describe("Whether to mention networking."),
+    networkingDetails: z.string().optional().describe("Details about who the user networked with."),
 });
 
 const GenerateLinkedInPostInputWithKeySchema = GenerateLinkedInPostInputSchema.extend({
@@ -64,9 +71,19 @@ Instructions:
      - “Also enjoyed the MCP 101 talk by Shreyan Mehta — really simplified complex ideas.”
    - Then transition into the **specific workshop** the attendee joined using the value from \`workshop\`
      - Example: “I joined the workshop on ‘{{{workshop}}}’ — tons of learning and hands-on perspective.”
-   - Add a warm **thank-you message** to organizers and volunteers
-     - Example: “Big shoutout to GDG Cloud Rajkot and all the volunteers who made the day smooth and fun!”
-   - End with the hashtags block
+   {{#if mentionNetworking}}
+   - Weave in a line about networking. Mention that you enjoyed connecting with {{#if networkingDetails}}{{networkingDetails}}{{else}}so many great people{{/if}}.
+   {{/if}}
+   - Add a warm **thank-you message**.
+     - {{#if mentionOrganizers}}Start by thanking the core team: Dhaval Kakkad, Pratik Butani, Varun Poladiya, Vaibhav Joshi, Nisha Kotecha, and Harsh Mer. {{else}}Give a general "Big shoutout to the organizers at GDG Cloud Rajkot".{{/if}}
+     - {{#if mentionVolunteers}}Then, give a big shoutout to the amazing volunteers: Meet Javiya, Megha Apalia, Leeza Lunagariya, Yashvi Bhuva, Swapneel Solanki, Shrushti Vachhani, Darp lalani, Yash Khokhar, Milan Gohel, Drashti Chag, Dev Tanna, Krish Bhayani. {{else}}Mention the volunteers who made the day smooth and fun!{{/if}}
+   {{#if mentionSponsors}}
+   - Include a thank you to the sponsors: Royal Sports and iDestiny Technology Lab.
+   {{/if}}
+   {{#if mentionSwag}}
+   - Add a fun comment about the swags. {{#if swagDetails}}You can mention getting "{{swagDetails}}".{{/if}}
+   {{/if}}
+   - End with the hashtags block.
 
 3. Formatting:
    - For a medium post, generate about 6-7 sentences in 3-4 short paragraphs.

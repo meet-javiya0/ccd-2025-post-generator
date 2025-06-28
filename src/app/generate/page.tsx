@@ -19,6 +19,7 @@ import {
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -38,6 +39,8 @@ import { generateXPost } from "@/ai/flows/generate-x-post";
 import { generateLinkedInPost } from "@/ai/flows/generate-linkedin-post";
 import { generatePreEventPost } from "@/ai/flows/generate-pre-event-post";
 import { XIcon } from "@/components/icons/x-icon";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 
 
 const preEventSchema = z.object({
@@ -56,6 +59,13 @@ const postEventSchema = z.object({
         .max(1000, "Your summary is too long (max 1000 characters)."),
     workshop: z.string({ required_error: "Please select a workshop." })
         .min(1, "Please select a workshop."),
+    mentionSwag: z.boolean().optional(),
+    swagDetails: z.string().max(100).optional(),
+    mentionSponsors: z.boolean().optional(),
+    mentionOrganizers: z.boolean().optional(),
+    mentionVolunteers: z.boolean().optional(),
+    mentionNetworking: z.boolean().optional(),
+    networkingDetails: z.string().max(100).optional(),
 });
 
 const formSchema = z.discriminatedUnion("postType", [
@@ -65,6 +75,8 @@ const formSchema = z.discriminatedUnion("postType", [
 
 
 const WORKSHOPS = [
+    { name: "Goodle Cloud AI: In Action", speaker: "Rushabh Vasa" },
+    { name: "MCP 101", speaker: "Shreyan Mehta" },
     { name: "Intro to Multimodal Retrieval-Augmented Generation (RAG)", speaker: "Harsh Manvar" },
     { name: "Building the Next Wave: Agentic AI with Google ADK & MCP", speaker: "Abhishek Sharma" },
     { name: "The Invisible Co-Founder: How to launch and run a Startup with an AI agent", speaker: "Parth Devariya" },
@@ -106,6 +118,13 @@ export default function GeneratorPage() {
             postLength: "medium",
             experience: "",
             workshop: undefined,
+            mentionSwag: false,
+            swagDetails: "",
+            mentionSponsors: false,
+            mentionOrganizers: false,
+            mentionVolunteers: false,
+            mentionNetworking: false,
+            networkingDetails: "",
         },
     });
 
@@ -140,25 +159,27 @@ export default function GeneratorPage() {
             } else {
                 const selectedWorkshop = WORKSHOPS.find(w => w.name === values.workshop);
 
+                const commonPayload = {
+                    eventDetails: EVENT_DETAILS,
+                    experienceDetails: values.experience,
+                    postLength: values.postLength,
+                    workshop: values.workshop,
+                    speaker: selectedWorkshop?.speaker,
+                    apiKey: apiKey,
+                    mentionSwag: values.mentionSwag,
+                    swagDetails: values.swagDetails,
+                    mentionSponsors: values.mentionSponsors,
+                    mentionOrganizers: values.mentionOrganizers,
+                    mentionVolunteers: values.mentionVolunteers,
+                    mentionNetworking: values.mentionNetworking,
+                    networkingDetails: values.networkingDetails,
+                };
+
                 if (values.platform === "x") {
-                    result = await generateXPost({
-                        eventDetails: EVENT_DETAILS,
-                        experienceDetails: values.experience,
-                        postLength: values.postLength,
-                        workshop: values.workshop,
-                        speaker: selectedWorkshop?.speaker,
-                        apiKey: apiKey,
-                    });
+                    result = await generateXPost(commonPayload);
                     setGeneratedPost(result.xPost);
                 } else {
-                    result = await generateLinkedInPost({
-                        eventDetails: EVENT_DETAILS,
-                        experienceDetails: values.experience,
-                        postLength: values.postLength,
-                        workshop: values.workshop,
-                        speaker: selectedWorkshop?.speaker,
-                        apiKey: apiKey,
-                    });
+                    result = await generateLinkedInPost(commonPayload);
                     setGeneratedPost(result.post);
                 }
             }
@@ -220,6 +241,21 @@ export default function GeneratorPage() {
                                                             defaultValue={field.value}
                                                             onValueChange={(value) => {
                                                                 field.onChange(value);
+                                                                form.reset({
+                                                                    ...form.getValues(),
+                                                                    postType: value as 'preevent' | 'postevent',
+                                                                    // Reset fields when switching tabs
+                                                                    experience: '',
+                                                                    workshop: undefined,
+                                                                    previousExperience: '',
+                                                                    mentionSwag: false,
+                                                                    swagDetails: "",
+                                                                    mentionSponsors: false,
+                                                                    mentionOrganizers: false,
+                                                                    mentionVolunteers: false,
+                                                                    mentionNetworking: false,
+                                                                    networkingDetails: "",
+                                                                });
                                                                 form.clearErrors();
                                                             }}
                                                             className="w-full"
@@ -313,6 +349,121 @@ export default function GeneratorPage() {
                                                         </FormItem>
                                                     )}
                                                 />
+
+                                                <div className="space-y-4">
+                                                    <h3 className="text-lg font-medium pt-2 border-t">Quick Add-Ons</h3>
+                                                    <FormDescription>
+                                                        Optionally add more details to your post.
+                                                    </FormDescription>
+
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="mentionSwag"
+                                                        render={({ field }) => (
+                                                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                                                                <FormControl>
+                                                                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                                                </FormControl>
+                                                                <div className="space-y-1 leading-none w-full">
+                                                                    <FormLabel>Mention Swags / Giveaways</FormLabel>
+                                                                    {form.watch("mentionSwag") && (
+                                                                        <FormField
+                                                                            control={form.control}
+                                                                            name="swagDetails"
+                                                                            render={({ field }) => (
+                                                                                <FormItem className="pt-2">
+                                                                                    <FormControl><Input placeholder="e.g., the cool t-shirt" {...field} /></FormControl>
+                                                                                    <FormMessage />
+                                                                                </FormItem>
+                                                                            )}
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </FormItem>
+                                                        )}
+                                                    />
+
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="mentionSponsors"
+                                                        render={({ field }) => (
+                                                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                                                                <FormControl>
+                                                                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                                                </FormControl>
+                                                                <div className="space-y-1 leading-none">
+                                                                    <FormLabel>❤️ Mention Sponsors</FormLabel>
+                                                                    <FormDescription>
+                                                                        Our sponsors: Royal Sports, iDestiny Technology Lab
+                                                                    </FormDescription>
+                                                                </div>
+                                                            </FormItem>
+                                                        )}
+                                                    />
+
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="mentionOrganizers"
+                                                        render={({ field }) => (
+                                                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                                                                <FormControl>
+                                                                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                                                </FormControl>
+                                                                <div className="space-y-1 leading-none">
+                                                                    <FormLabel>🤝 Mention Organizers</FormLabel>
+                                                                    <FormDescription>
+                                                                        Dhaval Kakkad, Pratik Butani, Varun Poladiya, Vaibhav Joshi, Nisha Kotecha, Harsh Mer
+                                                                    </FormDescription>
+                                                                </div>
+                                                            </FormItem>
+                                                        )}
+                                                    />
+
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="mentionVolunteers"
+                                                        render={({ field }) => (
+                                                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                                                                <FormControl>
+                                                                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                                                </FormControl>
+                                                                <div className="space-y-1 leading-none">
+                                                                    <FormLabel>🙋‍♂️ Mention Volunteers</FormLabel>
+                                                                    <FormDescription>
+                                                                        Meet Javiya, Megha Apalia, Leeza Lunagariya, and many more!
+                                                                    </FormDescription>
+                                                                </div>
+                                                            </FormItem>
+                                                        )}
+                                                    />
+
+                                                    <FormField
+                                                        control={form.control}
+                                                        name="mentionNetworking"
+                                                        render={({ field }) => (
+                                                            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+                                                                <FormControl>
+                                                                    <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                                                </FormControl>
+                                                                <div className="space-y-1 leading-none w-full">
+                                                                    <FormLabel>👥 Person you enjoyed networking with</FormLabel>
+                                                                    {form.watch("mentionNetworking") && (
+                                                                        <FormField
+                                                                            control={form.control}
+                                                                            name="networkingDetails"
+                                                                            render={({ field }) => (
+                                                                                <FormItem className="pt-2">
+                                                                                    <FormControl><Input placeholder="e.g., Jane Doe from TechCorp" {...field} /></FormControl>
+                                                                                    <FormMessage />
+                                                                                </FormItem>
+                                                                            )}
+                                                                        />
+                                                                    )}
+                                                                </div>
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                </div>
                                             </>
                                         ) : (
                                             <FormField

@@ -19,6 +19,13 @@ const GenerateXPostInputSchema = z.object({
     postLength: z.enum(['medium', 'long']).describe('The desired length of the post.'),
     workshop: z.string().describe('The workshop the attendee participated in.'),
     speaker: z.string().optional().describe('The name of the speaker for the workshop or session attended.'),
+    mentionSwag: z.boolean().optional().describe("Whether to mention swag/giveaways."),
+    swagDetails: z.string().optional().describe("Specific details about the swag received."),
+    mentionSponsors: z.boolean().optional().describe("Whether to mention the event sponsors."),
+    mentionOrganizers: z.boolean().optional().describe("Whether to mention the event organizers."),
+    mentionVolunteers: z.boolean().optional().describe("Whether to mention the event volunteers."),
+    mentionNetworking: z.boolean().optional().describe("Whether to mention networking."),
+    networkingDetails: z.string().optional().describe("Details about who the user networked with."),
 });
 
 const GenerateXPostInputWithKeySchema = GenerateXPostInputSchema.extend({
@@ -67,7 +74,18 @@ Instructions:
      - Rushabh Vasa’s talk on Google Cloud AI
      - Shreyan Mehta’s “MCP 101”
    - Mention the specific workshop they attended (\`workshop\`)
-   - Thank the organizers and volunteers warmly
+   {{#if mentionNetworking}}
+   - Add a line about networking. Great connecting with {{#if networkingDetails}}{{networkingDetails}}{{else}}everyone{{/if}}!
+   {{/if}}
+   - Thank the organizers and volunteers warmly.
+     - {{#if mentionOrganizers}}Shout-out to the organizers: Dhaval Kakkad, Pratik Butani, Varun Poladiya, Vaibhav Joshi, Nisha Kotecha, and Harsh Mer. {{/if}}
+     - {{#if mentionVolunteers}}Thanks to the volunteers: Meet Javiya, Megha Apalia, Leeza Lunagariya, Yashvi Bhuva, Swapneel Solanki, Shrushti Vachhani, Darp lalani, Yash Khokhar, Milan Gohel, Drashti Chag, Dev Tanna, Krish Bhayani. {{/if}}
+   {{#if mentionSponsors}}
+   - Thanks to sponsors Royal Sports & iDestiny Technology Lab!
+   {{/if}}
+   {{#if mentionSwag}}
+   - Loved the swag! {{#if swagDetails}}Especially the {{swagDetails}}.{{/if}}
+   {{/if}}
    - End with the hashtag block
 
 3. Formatting:
