@@ -9,6 +9,8 @@
  */
 
 import { ai } from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/googleai';
+import { genkit } from 'genkit';
 import { z } from 'genkit';
 
 const GeneratePreEventPostInputSchema = z.object({
@@ -16,7 +18,12 @@ const GeneratePreEventPostInputSchema = z.object({
     postLength: z.enum(['medium', 'long']).describe('The desired length of the post.'),
     previousExperience: z.string().optional().describe("Optional details about the attendee's experience from a previous event to add a personal touch."),
 });
-export type GeneratePreEventPostInput = z.infer<typeof GeneratePreEventPostInputSchema>;
+
+const GeneratePreEventPostInputWithKeySchema = GeneratePreEventPostInputSchema.extend({
+    apiKey: z.string(),
+});
+
+export type GeneratePreEventPostInput = z.infer<typeof GeneratePreEventPostInputWithKeySchema>;
 
 const GeneratePreEventPostOutputSchema = z.object({
     post: z.string().describe('The generated pre-event social media post.'),
@@ -27,8 +34,9 @@ export async function generatePreEventPost(input: GeneratePreEventPostInput): Pr
     return generatePreEventPostFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const promptConfig = {
     name: 'generatePreEventPostPrompt',
+    model: 'googleai/gemini-1.5-flash-latest',
     input: { schema: GeneratePreEventPostInputSchema },
     output: { schema: GeneratePreEventPostOutputSchema },
     prompt: `You are an expert social media content writer helping someone draft a **pre-event post** for attending *Cloud Community Days 2025*, organized by GDG Cloud Rajkot.
@@ -73,16 +81,27 @@ Use grounded, warm phrasing like:
 
 Make sure the final output feels like it was written by a young dev genuinely excited about joining a community-led event.
 `,
-});
+};
+
 
 const generatePreEventPostFlow = ai.defineFlow(
     {
         name: 'generatePreEventPostFlow',
-        inputSchema: GeneratePreEventPostInputSchema,
+        inputSchema: GeneratePreEventPostInputWithKeySchema,
         outputSchema: GeneratePreEventPostOutputSchema,
     },
     async input => {
-        const { output } = await prompt(input);
-        return output!;
+        const { apiKey, ...promptInput } = input;
+
+        const tempAi = genkit({
+            plugins: [googleAI({ apiKey })],
+        });
+
+        const tempPrompt = tempAi.definePrompt(promptConfig);
+        const { output } = await tempPrompt(promptInput);
+        if (!output) {
+            throw new Error('Failed to generate post. The AI model did not return a valid output.');
+        }
+        return output;
     }
 );

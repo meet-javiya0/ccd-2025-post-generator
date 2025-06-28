@@ -9,6 +9,8 @@
  */
 
 import { ai } from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/googleai';
+import { genkit } from 'genkit';
 import { z } from 'genkit';
 
 const GenerateLinkedInPostInputSchema = z.object({
@@ -18,7 +20,12 @@ const GenerateLinkedInPostInputSchema = z.object({
     workshop: z.string().describe('The workshop the attendee participated in.'),
     speaker: z.string().optional().describe('The name of the speaker for the workshop or session attended.'),
 });
-export type GenerateLinkedInPostInput = z.infer<typeof GenerateLinkedInPostInputSchema>;
+
+const GenerateLinkedInPostInputWithKeySchema = GenerateLinkedInPostInputSchema.extend({
+    apiKey: z.string(),
+});
+
+export type GenerateLinkedInPostInput = z.infer<typeof GenerateLinkedInPostInputWithKeySchema>;
 
 const GenerateLinkedInPostOutputSchema = z.object({
     post: z.string().describe('The generated LinkedIn post.'),
@@ -29,8 +36,9 @@ export async function generateLinkedInPost(input: GenerateLinkedInPostInput): Pr
     return generateLinkedInPostFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const promptConfig = {
     name: 'generateLinkedInPostPrompt',
+    model: 'googleai/gemini-1.5-flash-latest',
     input: { schema: GenerateLinkedInPostInputSchema },
     output: { schema: GenerateLinkedInPostOutputSchema },
     prompt: `You are a social media content expert helping an attendee of *Cloud Community Days 2025* (organized by GDG Cloud Rajkot) create a natural, human-sounding LinkedIn post about their experience.
@@ -73,16 +81,26 @@ Instructions:
 5. Do not add any extra text or explanation before/after the post. Only return the body of the post.
 
 Make sure the post feels like it was genuinely written by someone from the local community.`,
-});
+};
 
 const generateLinkedInPostFlow = ai.defineFlow(
     {
         name: 'generateLinkedInPostFlow',
-        inputSchema: GenerateLinkedInPostInputSchema,
+        inputSchema: GenerateLinkedInPostInputWithKeySchema,
         outputSchema: GenerateLinkedInPostOutputSchema,
     },
     async input => {
-        const { output } = await prompt(input);
-        return output!;
+        const { apiKey, ...promptInput } = input;
+
+        const tempAi = genkit({
+            plugins: [googleAI({ apiKey })],
+        });
+
+        const tempPrompt = tempAi.definePrompt(promptConfig);
+        const { output } = await tempPrompt(promptInput);
+        if (!output) {
+            throw new Error('Failed to generate post. The AI model did not return a valid output.');
+        }
+        return output;
     }
 );

@@ -9,6 +9,8 @@
  */
 
 import { ai } from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/googleai';
+import { genkit } from 'genkit';
 import { z } from 'genkit';
 
 const GenerateXPostInputSchema = z.object({
@@ -18,7 +20,12 @@ const GenerateXPostInputSchema = z.object({
     workshop: z.string().describe('The workshop the attendee participated in.'),
     speaker: z.string().optional().describe('The name of the speaker for the workshop or session attended.'),
 });
-export type GenerateXPostInput = z.infer<typeof GenerateXPostInputSchema>;
+
+const GenerateXPostInputWithKeySchema = GenerateXPostInputSchema.extend({
+    apiKey: z.string(),
+});
+
+export type GenerateXPostInput = z.infer<typeof GenerateXPostInputWithKeySchema>;
 
 const GenerateXPostOutputSchema = z.object({
     xPost: z.string().describe('Personalized X post tailored to the platform.'),
@@ -29,8 +36,9 @@ export async function generateXPost(input: GenerateXPostInput): Promise<Generate
     return generateXPostFlow(input);
 }
 
-const prompt = ai.definePrompt({
+const promptConfig = {
     name: 'generateXPostPrompt',
+    model: 'googleai/gemini-1.5-flash-latest',
     input: { schema: GenerateXPostInputSchema },
     output: { schema: GenerateXPostOutputSchema },
     prompt: `You are a social media content expert helping an attendee of *Cloud Community Days 2025* (organized by GDG Cloud Rajkot) write a **single X (Twitter)** post that shares their day in a natural, human tone.
@@ -78,16 +86,26 @@ Instructions:
 
 Let it feel like a fun, honest, real tweet by a young dev from Gujarat.
 `,
-});
+};
 
 const generateXPostFlow = ai.defineFlow(
     {
         name: 'generateXPostFlow',
-        inputSchema: GenerateXPostInputSchema,
+        inputSchema: GenerateXPostInputWithKeySchema,
         outputSchema: GenerateXPostOutputSchema,
     },
     async input => {
-        const { output } = await prompt(input);
-        return output!;
+        const { apiKey, ...promptInput } = input;
+
+        const tempAi = genkit({
+            plugins: [googleAI({ apiKey })],
+        });
+
+        const tempPrompt = tempAi.definePrompt(promptConfig);
+        const { output } = await tempPrompt(promptInput);
+        if (!output) {
+            throw new Error('Failed to generate post. The AI model did not return a valid output.');
+        }
+        return output;
     }
 );
