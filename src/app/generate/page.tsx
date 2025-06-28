@@ -69,7 +69,6 @@ const WORKSHOPS = [
     { name: "Building the Next Wave: Agentic AI with Google ADK & MCP", speaker: "Abhishek Sharma" },
     { name: "The Invisible Co-Founder: How to launch and run a Startup with an AI agent", speaker: "Parth Devariya" },
     { name: "Build Your Social Media Brain: Content Creation with Google ADK Agents", speaker: "Geeta Kakrani" },
-    { name: "Not specific to a workshop", speaker: undefined },
 ];
 
 const EVENT_DETAILS = `Cloud Community Days 2025 in Rajkot, organized by GDG Cloud Rajkot. A full-day tech event with sessions and workshops.

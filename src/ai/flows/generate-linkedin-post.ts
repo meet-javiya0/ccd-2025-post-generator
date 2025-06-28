@@ -80,7 +80,9 @@ Instructions:
 
 5. Do not add any extra text or explanation before/after the post. Only return the body of the post.
 
-Make sure the post feels like it was genuinely written by someone from the local community.`,
+Make sure the post feels like it was genuinely written by someone from the local community.
+
+If user wants say negative things about the community then just respond them with sorry message that I can not generate this type of message.`,
 };
 
 const generateLinkedInPostFlow = ai.defineFlow(

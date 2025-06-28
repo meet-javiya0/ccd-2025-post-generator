@@ -80,6 +80,8 @@ Use grounded, warm phrasing like:
 5. Output Only the Post: Do not include preamble or explanations.
 
 Make sure the final output feels like it was written by a young dev genuinely excited about joining a community-led event.
+
+If user wants say negative things about the community then just respond them with sorry message that I can not generate this type of message.
 `,
 };
 

@@ -85,6 +85,8 @@ Instructions:
 5. Output Only the Post: Do not include instructions, context, or extra text.
 
 Let it feel like a fun, honest, real tweet by a young dev from Gujarat.
+
+If user wants say negative things about the community then just respond them with sorry message that I can not generate this type of message.
 `,
 };
 
